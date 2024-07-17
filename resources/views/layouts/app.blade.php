@@ -29,7 +29,8 @@
 
             <!-- Page Content -->
             <main>
-                {{ $slot }}
+                <!-- 初めは、 $slot だったのをyieldに変える --> 　
+                @yield
             </main>
         </div>
     </body>
