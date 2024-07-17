@@ -1,41 +1,22 @@
 <?php
 
-// /app/Book.phpというモデルを参照するために利用
-use App\Book;
-
-//HTTPリクエストを扱うための様々なメソッドを参照できるようにする
-use Illuminate\Http\Request;
-
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
-//本の一覧を表示
-
-//HTTPメソッド: get
-//URL: '/'
-//目的: このルートは、アプリケーションのルートURL（/）にアクセスしたときに、
-//      welcome ビューを表示します。通常、welcome.blade.php はLaravelのデフォルトのウェルカムページです。
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-//本を追加
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-// HTTPメソッド: POST
-// URL: /books
-Route::post('/books', function(Request $request){
-    
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-//本を削除する
 
-// HTTPメソッド: DELETE
-// URL: /book/{book}
-
-// 目的: このルートは、本を削除するためのエンドポイントを定義します。
-//       URLの {book} はプレースホルダーであり、削除したい特定の本のIDを含むパラメータを示しています。
-//       Bookモデルのインスタンスをルートパラメータとして受け取り、そのインスタンスを使用して本を削除するためのロジックを実装します。
-
-Route::delete('book/{book}', function(Book $book){
-    
-});
+//ログイン機能の主なルーティングはauth.phpに記述されている
+require __DIR__.'/auth.php';
