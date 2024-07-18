@@ -30,7 +30,7 @@
             <!-- Page Content -->
             <main>
                 <!-- 初めは、 $slot だったのをyieldに変える --> 　
-                @yield
+                @yield('content')
             </main>
         </div>
     </body>

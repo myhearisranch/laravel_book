@@ -5,8 +5,22 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request; 
 use Illuminate\Support\Facades\Validator; 
 
+//この記述がないとClass "Book" not foundというエラーが発生
+use App\Models\Book;
+
+//本の一覧表示
 Route::get('/', function () {
-    return view('books');
+    
+    //Book::orderBy('created_at', 'asc'): books テーブルのレコードを created_at カラムで昇順に並べ替えるクエリを作成。
+    //get(): 並べかえた結果を全て取得する
+    $books = Book::orderBy('created_at', 'asc') ->get();
+    
+    //view('books', ['books' => $books]): resources/views/books.blade.php というビューを返すように Laravel に指示
+    //このビューにbooksという変数を渡す
+    return view('books',[
+        'books' => $books
+        ]);
+    
 });
 
 Route::get('/dashboard', function () {
