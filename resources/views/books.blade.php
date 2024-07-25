@@ -19,25 +19,45 @@
         @include('common.errors')
         <!-- バリデーションエラーの表示に使用 -->
         
-        <!-- 本登録フォーム -->
+        <!-- 本のタイトル -->
         <form action="{{ url('books')}}" method="POST" class="form-horizotal">
             @csrf
             
-            <!-- 本のタイトル -->
-            <div class="form-group">
-                <div class="col-sm-6">
+            <div class="form-row">
+                <div class="form-grooup col-md-6">
+                    <label for="book" class="col-sm-3 control-label">Book</label>
                     <input type="text" name="item_name" class="form-control">
+                </div>
+           
+            
+                <div class="form-group col-md-6">
+                    <label for="amount" class="col-sm-3 control-label">金額</label> 
+                    <input type="text" name="item_amount" class="form-control">
                 </div>
             </div>
             
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="number" class="col-sm-3 control-label">数</label>
+                    <input type ="text" name="item_number" class="form-control">
+                </div>
+            </div>
+            
+            <div class="form-group col-md-6">
+                <label for="published" class="col-sm-3 control-label">公開日</label>
+                <input type="date" name="published" class="form-control">
+            </div>
+            
+            
             <!-- 本 登録ボタン -->
-            <div class="form-group">
+            <div class="form-row">
                 <div class="col-sm-offset-3 col-sm-6">
                     <button type="submit" class="btn btn-primary">
                         Save
                     </button>
-                </div>
+                </div> 
             </div>
+            
         </form>
         
         <!-- 現在の本 -->
@@ -48,7 +68,7 @@
                         <!-- テーブルヘッダー -->
                         <thead>
                             <th>本一覧</th>
-                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>　　
                         </thead>
                         <!-- テーブル本体 -->
                         <tbody>
@@ -60,9 +80,32 @@
                                         <div>{{ $book->item_name}}</div>
                                     </td>
                                     
+                                    
+                                    <!-- 本:編集ボタン -->
+                                    <td>
+                                      　<form action="{{ url('booksedit/'.$book->id) }}" method="GET">
+                                            @csrf
+                                            <button type="submit" class="btn btn-primary">
+                                                更新
+                                            </button>
+                                        </form>
+                                    </td>
+                                    
                                     <!-- 本:削除ボタン -->
                                     <td>
-                                        
+                                        <form action="{{url('book/'.$book->id) }}" method="POST">
+                                            @csrf
+                                            
+                                            {{--<!--@method DELETE : フォームのHTTPメソッドを上書きしてDELETEリクエストを送信するために使用される -->--}}
+                                            {{--<!-- 上のコメントアウトがあるとUndefined constant "method_field"というエラーが発生 -->--}}
+                                            {{-- 原因: HTML コメント <!-- --> はHTMLとして扱われ、Bladeテンプレートエンジンが正しくコメントアウトとして処理しないことがある --}}
+                                            {{--　｛-- -- ｝を使うことで、Bladeテンプレートエンジンで正しくコメントとして認識される --}}
+                                            @method('DELETE')
+                                            
+                                            <button type="submit" class="btn btn-danger">
+                                                削除
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
