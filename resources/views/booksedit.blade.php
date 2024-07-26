@@ -45,6 +45,7 @@
          
          <!-- id値を送信 -->
          <input type="hidden" name="id" value="{{$book->id}}">
+         
          <!--/ id値を送信 -->
          
          <!-- CSRF -->
