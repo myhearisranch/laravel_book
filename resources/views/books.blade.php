@@ -19,6 +19,12 @@
         @include('common.errors')
         <!-- バリデーションエラーの表示に使用 -->
         
+        @if (session('message'))
+            <div class="alert alert-success">
+                {{ session('message')}}
+            </div>
+        @endif
+        
         <!-- 本のタイトル -->
         <form action="{{ url('books')}}" method="POST" class="form-horizotal">
             @csrf
