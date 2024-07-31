@@ -26,7 +26,7 @@
         @endif
         
         <!-- 本のタイトル -->
-        <form action="{{ route('books.store') }}" method="POST" class="form-horizotal">
+        <form enctype="multipart/form-data" action="{{ route('books.store') }}" method="POST" class="form-horizotal">
             @csrf
             
             <div class="form-row">
@@ -54,6 +54,10 @@
                 <input type="date" name="published" class="form-control">
             </div>
             
+            <div class="col-sm-6">
+                <label>画像</label>
+                <input type="file" name="item_img">
+            </div>
             
             <!-- 本 登録ボタン -->
             <div class="form-row">
@@ -85,6 +89,10 @@
                                         <!-- $book->item_name: 各本のタイトルを取得して表示 -->
                                         <div>{{ $book->item_name}}</div>
                                     </td>
+                                    
+                                    <div>
+                                        <img src="upload/{{$book->item_img}}" width="100">
+                                    </div>
                                     
                                     
                                     <!-- 本:編集ボタン -->

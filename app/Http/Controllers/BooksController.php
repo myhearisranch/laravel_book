@@ -131,12 +131,21 @@ class BooksController extends Controller
                 ->withErrors($validator);
         }
         
+        $file = $request->file('item_img');
+        if(!empty($file)){
+            $filename=$file->getClientOriginalName();
+            $move = $file->move('./upload/',$filename);
+        }else{
+            $filename="";
+        }
+        
         //登録処理
         $books = new Book;
         $books->user_id = Auth::user()->id;
         $books->item_name = $request->item_name;
         $books->item_number=$request->item_number;
         $books->item_amount=$request->item_amount;
+        $books->item_img = $filename;
         $books->published=$request->published;
         $books->save();
         
