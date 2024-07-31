@@ -125,7 +125,6 @@ class BooksController extends Controller
         
         //バリデーションエラー
         if($validator->fails()){
-            dd($validator);
             return redirect('/')
                 ->withInput()
                 ->withErrors($validator);
