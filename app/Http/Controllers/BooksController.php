@@ -16,8 +16,19 @@ use Validator;
 //認証モデルを使用する
 use Auth;
 
+use App\Http\Controllers\Controller;
+
 class BooksController extends Controller
 {
+    
+    //コンストラクタ(このクラスが呼ばれたら最初に処理をする)
+    //この記述があると、Call to undefined method App\Http\Controllers\BooksController::middleware()というエラーが発生
+    // public function __construct()
+    
+    // {
+    //     $this->middleware('auth');
+    // }
+    
     
     //本の一覧表示
     //本の登録や更新のようにパラメータを受け取らないので$requestはいらない
@@ -25,7 +36,7 @@ class BooksController extends Controller
     //（フォームデータ、クエリパラメータ、ヘッダーなど）を取得することができる。
     
     public function index(){
-        $books = Book::orderBy('created_at','asc')->paginate(3);
+        $books = Book::where('user_id',Auth::user()->id)->orderBy('created_at', 'asc')->paginate(3);
         return view('books',[
            'books'=>$books 
         ]);
@@ -42,9 +53,10 @@ class BooksController extends Controller
     //     ]);
     // }
     
-    public function edit(Book $book){
+    public function edit($book_id){
+        $books=Book::where('user_id',Auth::user()->id)->find($book_id);
         return view('booksedit', [
-            'book' => $book
+            'book' => $books
         ]);
     }
     
@@ -113,6 +125,7 @@ class BooksController extends Controller
         
         //バリデーションエラー
         if($validator->fails()){
+            dd($validator);
             return redirect('/')
                 ->withInput()
                 ->withErrors($validator);
@@ -120,11 +133,13 @@ class BooksController extends Controller
         
         //登録処理
         $books = new Book;
+        $books->user_id = Auth::user()->id;
         $books->item_name = $request->item_name;
         $books->item_number=$request->item_number;
         $books->item_amount=$request->item_amount;
         $books->published=$request->published;
         $books->save();
+        
         return redirect('/')->with('message', '本登録が完了しました');
     }
     

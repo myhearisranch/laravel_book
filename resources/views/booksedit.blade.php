@@ -4,7 +4,7 @@
 <div class="row container">
     <div class="col-md-12">
     @include('common.errors')
-    <form action="{{ url('books/update') }}" method="POST">
+    <form action="{{ route('books.update') }}" method="POST">
 
         <!-- item_name -->
         <div class="form-group">

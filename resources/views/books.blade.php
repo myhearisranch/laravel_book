@@ -26,7 +26,7 @@
         @endif
         
         <!-- 本のタイトル -->
-        <form action="{{ url('books')}}" method="POST" class="form-horizotal">
+        <form action="{{ route('books.store') }}" method="POST" class="form-horizotal">
             @csrf
             
             <div class="form-row">

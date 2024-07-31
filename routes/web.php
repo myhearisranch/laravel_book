@@ -21,21 +21,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    Route::get('/', [BooksController::class, 'index'])->name('books.index');
+    Route::get('booksedit/{book}', [BooksController::class, 'edit'])->name('books.edit');
+    Route::post('book/update', [BooksController::class, 'update'])->name('books.update');
+    Route::post('book/store', [BooksController::class, 'store'])->name('books.store');
+    Route::delete('book/{book}', [BooksController::class, 'destroy'])->name('books.destroy');
 });
-
-//本を登録
-Route::post('/books', [BooksController::class, 'store']);
-
-// 本を削除
-Route::delete('/book/{book}', [BooksController::class, 'destroy']);
-
-// 本の更新画面
-Route::get('booksedit/{book}', [BooksController::class, 'edit']);
-
-// 本の更新処理
-Route::post('/books/update', [BooksController::class, 'update']);
-
-
 
 // ログイン機能の主なルーティングはauth.phpに記述されている
 require __DIR__.'/auth.php';
